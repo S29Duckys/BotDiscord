@@ -52,21 +52,24 @@ async def typography(interaction: discord.Interaction):
         await interaction.response.send_message("typo")
 
 # Commandes task management
+@bot.tree.command(name="creat_tache", description="creer une tache")
+async def creat_tache(interaction: discord.Interaction, name_destinataire: str, tache_name: str):
+        with open("taches.txt", "w+") as file:
+                file.write(f"Tache cree pour : {name_destinataire} Tache : {tache_name}\n")
+        await interaction.response.send_message(f"tache {tache_name} cree pour {name_destinataire} a bien ete ajoutee.")
+
+
+
 @bot.tree.command(name="tache_list", description="Obtenir la liste des taches")
-async def tache_list(interaction: discord.Interaction, ):
+async def tache_list(interaction: discord.Interaction,):
         with open("taches.txt", "r") as file:
                 taches = file.readlines()
         if taches:
-                tache_message = "**Liste des taches :**\n" + "".join(f"- {tache.strip()}\n" for tache in taches)
+                tache_message = "Liste des taches:\n" + "".join(f"- {tache.strip()}\n" for tache in taches)
         else:
                 tache_message = "Aucune tache disponible."
         await interaction.response.send_message(tache_message)
 
-@bot.tree.command(name="creat_tache", description="creer une tache")
-async def creat_tache(interaction: discord.Interaction, tache_name: str):
-        with open("taches.txt", "w+") as file:
-                file.write(f"{tache_name}\n")
-        await interaction.response.send_message(f"tache {tache_name} cree")
 
 
 bot.run(discord_token)
