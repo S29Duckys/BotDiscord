@@ -10,3 +10,5 @@ __pycache__/
 *.log
 .DS_Store
 
+# Fichiers de taches
+taches.txt
