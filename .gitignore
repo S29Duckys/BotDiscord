@@ -1,0 +1,12 @@
+# Fichiers d'environnement
+*.env
+!.example.env
+
+# Fichiers Python à ignorer
+__pycache__/
+*.pyc
+
+# Configuration locale
+*.log
+.DS_Store
+
