@@ -1,0 +1,22 @@
+name: Discord webhook CI
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: [push]
+jobs:
+  discord-notification:
+    name: Notify Discord on new release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Discord Notification
+        uses: sarisia/actions-status-discord@v1
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          nodetail: true
+          title: "New version of ${{ github.repository }} is ready!"
+          description: |
+            Author: ${{ github.event.head_commit.author.name }}
+            Commit Message: ${{ github.event.head_commit.message }}
+            Type: ${{ github.ref_type }}
+            Branch: ${{ github.ref_name }}
+            Date: ${{ github.event.head_commit.timestamp }}
+          color: 0xff91a4
