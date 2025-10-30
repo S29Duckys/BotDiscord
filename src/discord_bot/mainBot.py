@@ -15,6 +15,12 @@ async def on_ready():
         try:
                 synced = await bot.tree.sync()
                 print(f"{len(synced)} commandes slash synchronisées")
+                id_channel_annonce = 1432701400923639930
+                channel = bot.get_channel(id_channel_annonce)
+                if channel:
+                        await channel.send("```Bot en ligne```")
+                else:
+                        print("Channel non trouvé.")
         except Exception as e:
                 print(f"Erreur de synchronisation des commandes : {e}")
 
@@ -54,8 +60,9 @@ async def typography(interaction: discord.Interaction):
 # Commandes task management
 @bot.tree.command(name="creat_tache", description="creer une tache")
 async def creat_tache(interaction: discord.Interaction, name_destinataire: str, tache_name: str):
-        with open("taches.txt", "w+") as file:
+        with open("taches.txt", "a+") as file:
                 file.write(f"Tache cree pour : {name_destinataire} Tache : {tache_name}\n")
+                file.close()
         await interaction.response.send_message(f"tache {tache_name} cree pour {name_destinataire} a bien ete ajoutee.")
 
 
