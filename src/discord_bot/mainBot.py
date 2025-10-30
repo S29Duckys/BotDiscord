@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 discord_token = os.getenv("DISCORD_TOKEN")
+id_channel_annonce = int(os.getenv("ID_CHANNEL_ANNONCE"))
 
 print("Bot Launched")
 bot = commands.Bot(command_prefix="/", intents=discord.Intents.all())
@@ -15,7 +16,6 @@ async def on_ready():
         try:
                 synced = await bot.tree.sync()
                 print(f"{len(synced)} commandes slash synchronisées")
-                id_channel_annonce = 1432701400923639930
                 channel = bot.get_channel(id_channel_annonce)
                 if channel:
                         await channel.send("```Bot en ligne```")
@@ -24,24 +24,18 @@ async def on_ready():
         except Exception as e:
                 print(f"Erreur de synchronisation des commandes : {e}")
 
-
 # Commandes Doc Helper
 @bot.tree.command(name="doc", description="Obtenir les liens du projet")
 async def doc(interaction: discord.Interaction):
         await interaction.response.send_message("**Liens du projet :**\n\n**GitHub :** https://github/repo.exemple\n**Discord :** https://discord.exemple\n**Figma :** https://figma.exemple")
 
-
 @bot.tree.command(name="repo", description="Obtenir les liens du repo")
 async def repo(interaction: discord.Interaction):
         await interaction.response.send_message("https://github/repo.exemple")
 
-
 @bot.tree.command(name="stack", description="Obtenir les stack du projet")
 async def stack(interaction: discord.Interaction):
         await interaction.response.send_message("pls qlq pour ecrire les stack svp")
-
-
-
 
 # Commandes Design Reminder
 
@@ -65,8 +59,6 @@ async def creat_tache(interaction: discord.Interaction, name_destinataire: str, 
                 file.close()
         await interaction.response.send_message(f"tache {tache_name} cree pour {name_destinataire} a bien ete ajoutee.")
 
-
-
 @bot.tree.command(name="tache_list", description="Obtenir la liste des taches")
 async def tache_list(interaction: discord.Interaction,):
         with open("taches.txt", "r") as file:
@@ -77,13 +69,12 @@ async def tache_list(interaction: discord.Interaction,):
                 tache_message = "Aucune tache disponible."
         await interaction.response.send_message(tache_message)
 
-
 # Event de deconnexion
+
 
 
 @bot.event 
 async def on_disconnect():
-        id_channel_annonce = 1432701400923639930
         channel = bot.get_channel(id_channel_annonce)
         if channel:
                 await channel.send("```Bot hors ligne```")
