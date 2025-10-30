@@ -78,5 +78,16 @@ async def tache_list(interaction: discord.Interaction,):
         await interaction.response.send_message(tache_message)
 
 
+# Event de deconnexion
+
+
+@bot.event 
+async def on_disconnect():
+        id_channel_annonce = 1432701400923639930
+        channel = bot.get_channel(id_channel_annonce)
+        if channel:
+                await channel.send("```Bot hors ligne```")
+        else:
+                print("Channel non trouvé.")
 
 bot.run(discord_token)
