@@ -10,6 +10,8 @@ id_channel_annonce = int(os.getenv("ID_CHANNEL_ANNONCE"))
 print("Bot Launched")
 bot = commands.Bot(command_prefix="/", intents=discord.Intents.all())
 
+# Event demarage du bot
+
 @bot.event
 async def on_ready():
         print("Bot load")
@@ -25,6 +27,7 @@ async def on_ready():
                 print(f"Erreur de synchronisation des commandes : {e}")
 
 # Commandes Doc Helper
+
 @bot.tree.command(name="doc", description="Obtenir les liens du projet")
 async def doc(interaction: discord.Interaction):
         await interaction.response.send_message("**Liens du projet :**\n\n**GitHub :** https://github/repo.exemple\n**Discord :** https://discord.exemple\n**Figma :** https://figma.exemple")
@@ -52,6 +55,7 @@ async def typography(interaction: discord.Interaction):
         await interaction.response.send_message("typo")
 
 # Commandes task management
+
 @bot.tree.command(name="creat_tache", description="creer une tache")
 async def creat_tache(interaction: discord.Interaction, name_destinataire: str, tache_name: str):
         with open("taches.txt", "a+") as file:
@@ -71,14 +75,19 @@ async def tache_list(interaction: discord.Interaction,):
 
 # Event de deconnexion
 
-
+@bot.tree.command(name="kill", description="kill le bot")
+async def kill(interaction: discord.Interaction):
+        await interaction.response.send_message("Le bot va se deconnecter.")
+        await bot.close()
+        print("Bot deconnecte.")
 
 @bot.event 
 async def on_disconnect():
-        channel = bot.get_channel(id_channel_annonce)
-        if channel:
-                await channel.send("```Bot hors ligne```")
-        else:
-                print("Channel non trouvé.")
+    try:
+        channel = bot.get_channel()
+        if channel and not bot.is_closed(id_channel_annonce):
+            await channel.send("```Bot hors ligne```")
+    except Exception as e:
+        pass
 
 bot.run(discord_token)
