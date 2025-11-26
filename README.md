@@ -32,21 +32,24 @@ git clone https://github.com/votre-repo/discord-bot.git
 cd discord-bot
 ```
 
-2. **Installer les dépendances**
+2. **Installer les Poetry**
 ```bash
-pip install -r requirements.txt
+poetry install
+poetry shell 
 ```
+
 
 3. **Configurer les variables d'environnement**
 
 Créez un fichier `.env` à la racine du projet :
 ```env
-DISCORD_TOKEN=votre_token_discord_ici
+DISCORD_BOT_TOKEN=votre_token_bot_discord_ici
+ID_CHANNEL_ANNONCE=id_channel_annonce
 ```
 
 4. **Lancer le bot**
 ```bash
-python src/discord_bot/mainBot.py
+poetry run python src/discord_bot/mainBot.py
 ```
 
 ## Structure du projet
